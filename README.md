@@ -7,7 +7,7 @@
 [![Quality Score][ico-code-quality]][link-code-quality]
 [![Total Downloads][ico-downloads]][link-downloads]
 
-A simple request logging middleware 
+A simple request logging middleware for Guzzle v6+ 
 
 ## Structure
 

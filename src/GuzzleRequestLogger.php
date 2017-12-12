@@ -15,7 +15,7 @@
  * ------------------------------------------------------------------
  */
 
-namespace FSURCC\RestClient\Logger;
+namespace CaseyAMcL\GuzzleRequestLogger;
 
 use GuzzleHttp\Promise\PromiseInterface;
 use Psr\Http\Message\RequestInterface;
@@ -29,7 +29,7 @@ use Psr\Log\LogLevel;
  * Simple class for logging HTTP requests with Guzzle.  This is useful
  * for debugging or auditing.
  *
- * @package FSURCC\RestClient\Logger
+ * @package CaseyAMcL\GuzzleRequestLogger
  */
 class RequestLogger
 {
