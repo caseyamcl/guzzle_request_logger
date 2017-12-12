@@ -11,8 +11,6 @@ A simple request logging middleware
 
 ## Structure
 
-If any of the following are applicable to your project, then the directory structure should follow industry best practises by being named the following.
-
 ```
 src/   - Source Files
 tests/ - Unit Tests
@@ -30,7 +28,12 @@ $ composer require caseyamcl/guzzle_request_logger
 ## Usage
 
 ``` php
-// TODO: This..
+// $logger is any PSR-6-compatible logging class (e.g. Monolog, Symfony Logger, etc)
+
+$stack \GuzzleHttp\HandlerStack::create();
+$stack->push(new RequestLogger($logger));
+
+$client = new \GuzzleHttp\Client(['handler' => $stack]);
 ```
 
 ## Change log
@@ -45,7 +48,7 @@ $ composer test
 
 ## Contributing
 
-Please see [CONTRIBUTING](CONTRIBUTING.md) and [CODE_OF_CONDUCT](CODE_OF_CONDUCT.md) for details.
+Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
 ## Security
 
