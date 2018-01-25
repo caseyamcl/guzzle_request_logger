@@ -76,8 +76,13 @@ class GuzzleRequestLogger
                 }
             }
 
-            if ($body = $request->getBody()->getContents()) {
-                $messageLines[] = ' Body:' . PHP_EOL . $body . PHP_EOL;
+            if ($request->getBody()->isSeekable()) {
+                if ($body = $request->getBody()->getContents()) {
+                    $messageLines[] = ' Body:' . PHP_EOL . $body . PHP_EOL;
+                }
+            }
+            else {
+                $messageLines[] = ' Body: (streamed content)';
             }
         }
 
