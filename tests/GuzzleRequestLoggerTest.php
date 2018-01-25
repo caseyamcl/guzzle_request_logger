@@ -17,4 +17,6 @@ class GuzzleRequestLoggerTest extends TestCase
         $obj = new GuzzleRequestLogger(new NullLogger());
         $this->assertInstanceOf(GuzzleRequestLogger::class, $obj);
     }
+
+    // TODO: Add tests for non-seekable response bodies.
 }

@@ -105,12 +105,18 @@ class GuzzleRequestLogger
 
             // Read the first 1024 bytes from the string and truncate the rest.
             $responseBody = $response->getBody();
-            $responseString = ($responseBody->getSize() > 1024)
-                ? $responseBody->read(1024) . '...(truncated)'
-                : $responseBody->__toString();
-            $response->getBody()->rewind();
 
-            $messageLines[]  = ' Body: ' . PHP_EOL . $responseString . PHP_EOL;
+            if ($responseBody->isSeekable()) {
+                $responseString = ($responseBody->getSize() > 1024)
+                    ? $responseBody->read(1024) . '...(truncated)'
+                    : $responseBody->__toString();
+                $response->getBody()->rewind();
+
+                $messageLines[]  = ' Body: ' . PHP_EOL . $responseString . PHP_EOL;
+            }
+            else {
+                $messageLines[] = ' Body: (streamed content)';
+            }
         }
 
         $this->doLog($messageLines);
