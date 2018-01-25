@@ -28,12 +28,12 @@
     },
     "autoload": {
         "psr-4": {
-            "caseyamcl\\guzzle_request_logger\\": "src"
+            "CaseyAMcL\\GuzzleRequestLogger\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "caseyamcl\\guzzle_request_logger\\": "tests"
+            "CaseyAMcL\\GuzzleRequestLogger\\": "tests"
         }
     },
     "scripts": {

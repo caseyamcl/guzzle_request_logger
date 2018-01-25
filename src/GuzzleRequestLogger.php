@@ -31,7 +31,7 @@ use Psr\Log\LogLevel;
  *
  * @package CaseyAMcL\GuzzleRequestLogger
  */
-class RequestLogger
+class GuzzleRequestLogger
 {
     /**
      * @var LoggerInterface

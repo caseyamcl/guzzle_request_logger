@@ -1,6 +1,9 @@
 # IDE Stuff
 .idea/
 
+# Testing stuff
+build/
+
 # Composer Stuff
 composer.lock
 vendor
