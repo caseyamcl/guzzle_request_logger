@@ -49,23 +49,36 @@ class GuzzleRequestLogger
     private $implodeMultiLine;
 
     /**
+     * @var string
+     */
+    private $logLevel;
+
+    /**
      * RequestLogger constructor.
      *
-     * @param LoggerInterface $logger
-     * @param bool            $multiLine
-     * @param bool            $implodeMultiLine
+     * @param LoggerInterface $logger            A PSR-3 logger (e.g. Monolog, etc)
+     * @param bool            $multiLine         If TRUE, prints detailed logging output, including headers and body
+     * @param bool            $implodeMultiLine  If TRUE, detailed logging output will be imploded to one line
+     * @param string          $logLevel          Defaults to \Psr\LogLogLevel::INFO
      */
-    public function __construct(LoggerInterface $logger, $multiLine = true, $implodeMultiLine = false)
-    {
-        $this->logger           = $logger;
-        $this->multiLine        = $multiLine;
+    public function __construct(
+        LoggerInterface $logger,
+        bool $multiLine = true,
+        bool $implodeMultiLine = false,
+        string $logLevel = LogLevel::INFO
+    ) {
+        $this->logger = $logger;
+        $this->multiLine = $multiLine;
         $this->implodeMultiLine = $implodeMultiLine;
+        $this->logLevel = $logLevel;
     }
 
     /**
+     * Log a request
+     *
      * @param RequestInterface $request
      */
-    public function logRequest(RequestInterface $request)
+    public function logRequest(RequestInterface $request): void
     {
         $messageLines = [sprintf('---> REQUEST: %s %s', $request->getMethod(), $request->getUri())];
 
@@ -90,9 +103,11 @@ class GuzzleRequestLogger
     }
 
     /**
+     * Log a response
+     *
      * @param ResponseInterface $response
      */
-    public function logResponse(ResponseInterface $response)
+    public function logResponse(ResponseInterface $response): void
     {
         $messageLines = [sprintf('<--- RESPONSE: %s', $response->getStatusCode())];
 
@@ -123,10 +138,16 @@ class GuzzleRequestLogger
     }
 
     /**
+     * Invokable method for registering with Guzzle HandlerStack
+     *
+     * This is useful if you're using Guzzle.  It provides quick syntax for registering with Guzzle's HandlerStack:
+     *
+     * $handlerStack->push(new GuzzleRequestLogger($somePsr3Logger));
+     *
      * @param callable $handler
      * @return \Closure
      */
-    public function __invoke(callable $handler)
+    public function __invoke(callable $handler): callable
     {
         return function (RequestInterface $request, array $options) use ($handler) {
             $this->logRequest($request);
@@ -140,15 +161,17 @@ class GuzzleRequestLogger
     }
 
     /**
+     * Write the log message to the logger
+     *
      * @param array $lines
      */
-    private function doLog(array $lines)
+    private function doLog(array $lines): void
     {
         if ($this->implodeMultiLine) {
-            $this->logger->log(LogLevel::INFO, implode(PHP_EOL, $lines));
+            $this->logger->log($this->logLevel, implode(PHP_EOL, $lines));
         } else {
             foreach ($lines as $line) {
-                $this->logger->log(LogLevel::INFO, $line);
+                $this->logger->log($this->logLevel, $line);
             }
         }
     }
